@@ -1,16 +1,31 @@
 package ch.heigvd.iict.sym.a3dcompassapp;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class CompassActivity extends AppCompatActivity {
+public class CompassActivity extends AppCompatActivity implements SensorEventListener {
 
     //opengl
     private OpenGLRenderer  opglr           = null;
     private GLSurfaceView   m3DView         = null;
+    //sensor manager to access the sensors
+    private SensorManager mSensorManager = null;
+
+    private Sensor accSensor = null; //accelerometer sensor
+    private Sensor magSensor = null; //magnetometer sensor
+
+    private float [] mGravity = null;
+    private float [] mGeomagnetic = null;
+    private float [] matrix;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +47,49 @@ public class CompassActivity extends AppCompatActivity {
         //init opengl surface view
         this.m3DView.setRenderer(this.opglr);
 
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        // Use the accelerometer.
+        if (mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
+            accSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        }
+        // Use the magnetometer
+        if( mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
+            magSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        }
     }
 
-    /* TODO */
-    // your activity need to register accelerometer and magnetometer sensors' updates
-    // then you may want to call
-    //  this.opglr.swapRotMatrix()
-    // with the 4x4 rotation matrix, everytime a new matrix is computed
-    // more information on rotation matrix can be found on-line:
-    // https://developer.android.com/reference/android/hardware/SensorManager.html#getRotationMatrix(float[],%20float[],%20float[],%20float[])
+    @Override
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {}//Not used function
+
+    @Override
+    public final void onSensorChanged(SensorEvent event) {
+        //Check sensor type
+        switch (event.sensor.getType()){
+            case Sensor.TYPE_ACCELEROMETER :
+                mGravity = event.values;
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                mGeomagnetic = event.values;
+                break;
+        }
+        //Compute the rotation matrix
+        mSensorManager.getRotationMatrix(matrix, null, mGravity, mGeomagnetic);
+        matrix = this.opglr.swapRotMatrix(matrix);
+    }
+
+    @Override
+    protected void onResume() { //enable sensors
+        super.onResume();
+        mSensorManager.registerListener(this, accSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, magSensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    @Override
+    protected void onPause() {//desable sensors
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
 
 }
