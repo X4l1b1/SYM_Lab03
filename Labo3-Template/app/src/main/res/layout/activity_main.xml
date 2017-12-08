@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_nfc"
+            android:layout_width="128dp"
+            android:layout_height="72dp"
+            android:text="NFC" />
+
+        <Button
+            android:id="@+id/button_bar_code"
+            android:layout_marginTop="15dp"
+            android:layout_width="128dp"
+            android:layout_height="72dp"
+            android:text="Bar code"/>
+
+        <Button
+            android:id="@+id/button_beacon"
+            android:layout_marginTop="15dp"
+            android:layout_width="128dp"
+            android:layout_height="72dp"
+            android:text="Beacon"/>
+
+        <Button
+            android:id="@+id/button_captors"
+            android:layout_marginTop="15dp"
+            android:layout_width="128dp"
+            android:layout_height="72dp"
+            android:text="Captors"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
