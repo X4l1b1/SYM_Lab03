@@ -24,7 +24,7 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
 
     private float [] mGravity = null;
     private float [] mGeomagnetic = null;
-    private float [] matrix;
+    private float [] matrix = new float[16];
 
 
     @Override
@@ -74,8 +74,10 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
                 break;
         }
         //Compute the rotation matrix
-        mSensorManager.getRotationMatrix(matrix, null, mGravity, mGeomagnetic);
-        matrix = this.opglr.swapRotMatrix(matrix);
+        if(mGravity != null && mGeomagnetic != null) {
+            SensorManager.getRotationMatrix(matrix, null, mGravity, mGeomagnetic);
+            matrix = this.opglr.swapRotMatrix(matrix);
+        }
     }
 
     @Override
