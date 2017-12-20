@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 public class NFCActivity extends AppCompatActivity {
     // For logging purposes
-    private static final String TAG = BarCodeActivity.class.getSimpleName();
+    private static final String TAG = BarCodeScannerActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

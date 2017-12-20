@@ -12,16 +12,16 @@ import com.google.zxing.integration.android.IntentResult;
  * Created by pierre-samuelrochat on 08.12.17.
  */
 
-public class BarCodeActivity extends AppCompatActivity {
+public class BarCodeScannerActivity extends AppCompatActivity {
 
     // For logging purposes
-    private static final String TAG = BarCodeActivity.class.getSimpleName();
+    private static final String TAG = BarCodeScannerActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Creates activity form ZXING library
         new IntentIntegrator(this).initiateScan();
-
     }
 
     // Get the results
@@ -30,9 +30,14 @@ public class BarCodeActivity extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Scanning Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                // Creates activity to display result of scan
+                Intent intent = new Intent(BarCodeScannerActivity.this, BarCodeResultActivity.class);
+                // Put result of scanning in the intent
+                intent.putExtra("RESULT", result.getContents());
+                // Start the new activity
+                BarCodeScannerActivity.this.startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

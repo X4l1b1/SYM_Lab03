@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, ch.heigvd.iict.sym.a3dcompassapp.BarCodeActivity.class);
+                Intent intent = new Intent(MainActivity.this, BarCodeScannerActivity.class);
                 //   intent.putExtra(EXTRA_MESSAGE, "Async");
 
                 //   MainActivity.this.startActivityForResult(intent, 1);
