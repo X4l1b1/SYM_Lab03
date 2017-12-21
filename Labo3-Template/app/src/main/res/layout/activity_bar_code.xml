@@ -18,11 +18,5 @@
             android:textAlignment="center"
             android:textSize="50px"
             android:text="result"/>
-
     </LinearLayout>
-
-
-
-
-
 </RelativeLayout>

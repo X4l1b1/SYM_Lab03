@@ -3,6 +3,7 @@ package ch.heigvd.iict.sym.a3dcompassapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -12,15 +13,19 @@ import com.google.zxing.integration.android.IntentResult;
  * Created by pierre-samuelrochat on 08.12.17.
  */
 
-public class BarCodeScannerActivity extends AppCompatActivity {
+public class BarCodeActivity extends AppCompatActivity {
 
     // For logging purposes
-    private static final String TAG = BarCodeScannerActivity.class.getSimpleName();
+    private static final String TAG = BarCodeActivity.class.getSimpleName();
+    private String resultString;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Creates activity form ZXING library
+        setContentView(R.layout.activity_bar_code);
+        textView = findViewById(R.id.result_text);
         new IntentIntegrator(this).initiateScan();
     }
 
@@ -32,12 +37,9 @@ public class BarCodeScannerActivity extends AppCompatActivity {
             if(result.getContents() == null) {
                 Toast.makeText(this, "Scanning Cancelled", Toast.LENGTH_LONG).show();
             } else {
-                // Creates activity to display result of scan
-                Intent intent = new Intent(BarCodeScannerActivity.this, BarCodeResultActivity.class);
-                // Put result of scanning in the intent
-                intent.putExtra("RESULT", result.getContents());
-                // Start the new activity
-                BarCodeScannerActivity.this.startActivity(intent);
+                // Gets result and display it in testView
+                resultString = result.getContents();
+                textView.setText(resultString);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

@@ -3,75 +3,41 @@ package ch.heigvd.iict.sym.a3dcompassapp;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 /**
- * Created by pierre-samuelrochat on 21.12.17.
+ * Created by pierre-samuelrochat on 08.12.17.
  */
 
-public class NFCActivity extends AppCompatActivity {
+public class NFCLoginActivity extends AppCompatActivity {
 
-    // For log purposes
-    private static final String TAG = NFCActivity.class.getSimpleName();
+    // UI elements
+    EditText email;
+    EditText password;
+    Switch securityDegree;
 
-    private static final int AUTHENTIFICATE_DEFAULT = 15;
-    private static final int AUTHENTIFICATE_MAX = 10;
-    private static final int AUTHENTIFICATE_MEDIUM = 5;
-    private static final int AUTHENTIFICATE_LOW = 0;
-
-    private int authentificateLevel;
-
-    private Handler handler;
-    private final int DELAY = 1000;
-
-    private TextView textView;
+    // For logging purposes
+    private static final String TAG = NFCLoginActivity.class.getSimpleName();
 
     private NfcAdapter mNfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nfc);
+        setContentView(R.layout.activity_nfc_login);
 
-        textView = findViewById(R.id.authentificate_text);
-
-        authentificateLevel = AUTHENTIFICATE_DEFAULT;
-        textView.setText(getString(R.string.authentificate_high_text));
-        textView.setTextColor(Color.GREEN);
-
-        handler = new Handler();
-
-        handler.postDelayed(new Runnable(){
-            public void run(){
-
-                // Updates authentificate level
-                if(authentificateLevel > AUTHENTIFICATE_LOW) {
-                    authentificateLevel--;
-                }
-
-                // Does stuff according to authentificateLevel
-                if(authentificateLevel < AUTHENTIFICATE_MEDIUM) {
-                    textView.setText(getString(R.string.authentificate_low_text));
-                    textView.setTextColor(Color.RED);
-                } else if(authentificateLevel > AUTHENTIFICATE_MEDIUM && authentificateLevel < AUTHENTIFICATE_MAX) {
-                    textView.setText(getString(R.string.authentificate_medium_text));
-                    textView.setTextColor(Color.YELLOW);
-                } else if(authentificateLevel > AUTHENTIFICATE_MAX) {
-                    textView.setText(getString(R.string.authentificate_high_text));
-                    textView.setTextColor(Color.GREEN);
-                }
-                handler.postDelayed(this, DELAY);
-            }
-        }, DELAY);
+        // Creates UI elements
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        securityDegree = findViewById(R.id.security_degree);
 
         // Check for available NFC Adapter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -114,15 +80,35 @@ public class NFCActivity extends AppCompatActivity {
                 String tagMessage = new String(messages[0].getRecords()[0].getPayload());
                 Log.i(TAG, tagMessage);
 
-                // Restore default authentificate level
-                if(tagMessage.equals(getString(R.string.ndef_password))) {
-                    authentificateLevel = AUTHENTIFICATE_DEFAULT;
-                    textView.setText(getString(R.string.authentificate_high_text));
-                    textView.setTextColor(Color.GREEN);
+
+                if(securityDegree.isActivated()) {
+
+                    if(email.getText().equals(getString(R.string.user_email))
+                            && password.getText().equals(getString(R.string.user_password))
+                            && tagMessage.equals(getString(R.string.ndef_password))) {
+
+                        Intent intent2 = new Intent(NFCLoginActivity.this, NFCActivity.class);
+                        NFCLoginActivity.this.startActivity(intent2);
+
+                    } else {
+                        Toast.makeText(this, "Failed to LOG IN", Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+                    if(email.getText().equals(getString(R.string.user_email))
+                            && tagMessage.equals(getString(R.string.ndef_password))) {
+
+                        Intent intent2 = new Intent(NFCLoginActivity.this, NFCActivity.class);
+                        NFCLoginActivity.this.startActivity(intent2);
+
+                    } else {
+                        Toast.makeText(this, "Failed to LOG IN", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         }
     }
+
 
     // called in onResume()
     private void setupForegroundDispatch() {
@@ -155,4 +141,5 @@ public class NFCActivity extends AppCompatActivity {
         if(mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }
+
 }

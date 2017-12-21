@@ -37,13 +37,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, BarCodeScannerActivity.class);
-                //   intent.putExtra(EXTRA_MESSAGE, "Async");
-
-                //   MainActivity.this.startActivityForResult(intent, 1);
+                Intent intent = new Intent(MainActivity.this, BarCodeActivity.class);
                 MainActivity.this.startActivity(intent);
-                // Wrong combination, display pop-up dialog and stay on login screen
-                //    showErrorDialog(??, ??);
             }
 
 
@@ -55,12 +50,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, ch.heigvd.iict.sym.a3dcompassapp.BeaconActivity.class);
-                //   intent.putExtra(EXTRA_MESSAGE, "Diff");
-
-                //   MainActivity.this.startActivityForResult(intent, 1);
                 MainActivity.this.startActivity(intent);
-                // Wrong combination, display pop-up dialog and stay on login screen
-                //    showErrorDialog(??, ??);
             }
 
 
@@ -71,13 +61,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, ch.heigvd.iict.sym.a3dcompassapp.NFCActivity.class);
-                //   intent.putExtra(EXTRA_MESSAGE, "Object");
-
-                //   MainActivity.this.startActivityForResult(intent, 1);
+                Intent intent = new Intent(MainActivity.this, NFCLoginActivity.class);
                 MainActivity.this.startActivity(intent);
-                // Wrong combination, display pop-up dialog and stay on login screen
-                //    showErrorDialog(??, ??);
             }
 
 
@@ -89,12 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, ch.heigvd.iict.sym.a3dcompassapp.CompassActivity.class);
-                //   intent.putExtra(EXTRA_MESSAGE, "Compr");
-
-                //   MainActivity.this.startActivityForResult(intent, 1);
                 MainActivity.this.startActivity(intent);
-                // Wrong combination, display pop-up dialog and stay on login screen
-                //    showErrorDialog(??, ??);
             }
 
 

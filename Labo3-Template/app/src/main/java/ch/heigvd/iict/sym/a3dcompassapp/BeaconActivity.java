@@ -52,7 +52,7 @@ public class BeaconActivity extends AppCompatActivity implements BeaconConsumer 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon);
 
-        /*
+
         Dexter.withActivity(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {
@@ -66,24 +66,23 @@ public class BeaconActivity extends AppCompatActivity implements BeaconConsumer 
 
             @Override
             public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) { /* ... */ }
-        //}).check();
+        }).check();
 
-    /*
+
         // Create and bind a Beacon Manager for our consumer
         beaconManager = BeaconManager.getInstanceForApplication(this);
         beaconManager.getBeaconParsers().add(new BeaconParser().setBeaconLayout(BEACON_LAYOUT));
         beaconManager.bind(this);
 
-        listView = (ListView)findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         data = new ArrayList<>();
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
 
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        */
 
-    //}
+    }
 
     /*
      * Called by the BeaconManager callback provided when ready to use
