@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Labo3 - 3D Compass template</string>
-    <string name="user_email">a@b.c</string>
-    <string name="user_password">1234</string>
+    <string name="user_email">a</string>
+    <string name="user_password">b</string>
     <string name="ndef_password">\u0002frtest</string>
 
     <string name="authentificate_low_text">Niveau d\'authentification bas</string>

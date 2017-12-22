@@ -96,6 +96,7 @@ public class NFCActivity extends AppCompatActivity {
         stopForegroundDispatch();
     }
 
+    // When NFC near device
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -152,6 +153,7 @@ public class NFCActivity extends AppCompatActivity {
 
     // called in onPause()
     private void stopForegroundDispatch() {
+
         if(mNfcAdapter != null)
             mNfcAdapter.disableForegroundDispatch(this);
     }

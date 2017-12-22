@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ public class NFCLoginActivity extends AppCompatActivity {
     EditText email;
     EditText password;
     Switch securityDegree;
+    Button loginButton;
 
     // For logging purposes
     private static final String TAG = NFCLoginActivity.class.getSimpleName();
@@ -38,6 +41,7 @@ public class NFCLoginActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         securityDegree = findViewById(R.id.security_degree);
+        loginButton = findViewById(R.id.button);
 
         // Check for available NFC Adapter
         mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -47,6 +51,23 @@ public class NFCLoginActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, email.getText().toString() + " vs " + getString(R.string.user_email));
+                Log.i(TAG, password.getText().toString() + " vs " + getString(R.string.user_password));
+                if(!securityDegree.isChecked()) {
+                    if ((email.getText().toString()).equals(getString(R.string.user_email))
+                            && (password.getText().toString()).equals(getString(R.string.user_password))) {
+                        Intent intent2 = new Intent(NFCLoginActivity.this, NFCActivity.class);
+                        NFCLoginActivity.this.startActivity(intent2);
+                    } else {
+                        Toast.makeText(v.getContext(), "Failed to LOG IN", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -79,12 +100,12 @@ public class NFCLoginActivity extends AppCompatActivity {
                 // Extract message
                 String tagMessage = new String(messages[0].getRecords()[0].getPayload());
                 Log.i(TAG, tagMessage);
+                Log.i(TAG, getString(R.string.ndef_password));
 
-
-                if(securityDegree.isActivated()) {
-
-                    if(email.getText().equals(getString(R.string.user_email))
-                            && password.getText().equals(getString(R.string.user_password))
+                if(securityDegree.isChecked()) {
+                    // Password and NFC required
+                    if((email.getText().toString()).equals(getString(R.string.user_email))
+                            && (password.getText().toString()).equals(getString(R.string.user_password))
                             && tagMessage.equals(getString(R.string.ndef_password))) {
 
                         Intent intent2 = new Intent(NFCLoginActivity.this, NFCActivity.class);
@@ -95,7 +116,10 @@ public class NFCLoginActivity extends AppCompatActivity {
                     }
 
                 } else {
-                    if(email.getText().equals(getString(R.string.user_email))
+                    // Password or NFC required
+                    
+                    // Check if NFC message id right
+                    if((email.getText().toString()).equals(getString(R.string.user_email))
                             && tagMessage.equals(getString(R.string.ndef_password))) {
 
                         Intent intent2 = new Intent(NFCLoginActivity.this, NFCActivity.class);
