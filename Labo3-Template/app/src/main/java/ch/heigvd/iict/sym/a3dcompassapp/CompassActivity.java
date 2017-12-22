@@ -8,10 +8,14 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class CompassActivity extends AppCompatActivity implements SensorEventListener {
+
+    // For logging purposes
+    private static final String TAG = CompassActivity.class.getSimpleName();
 
     //opengl
     private OpenGLRenderer  opglr           = null;
@@ -73,9 +77,10 @@ public class CompassActivity extends AppCompatActivity implements SensorEventLis
                 mGeomagnetic = event.values;
                 break;
         }
+
         //Compute the rotation matrix
         if(mGravity != null && mGeomagnetic != null) {
-            SensorManager.getRotationMatrix(matrix, null, mGravity, mGeomagnetic);
+            mSensorManager.getRotationMatrix(matrix, null, mGravity, mGeomagnetic);
             matrix = this.opglr.swapRotMatrix(matrix);
         }
     }

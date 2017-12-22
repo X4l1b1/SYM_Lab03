@@ -45,12 +45,13 @@ public class BeaconActivity extends AppCompatActivity implements BeaconConsumer 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beacon);
 
         /* Use of Dexter Library to ask for permissions (pop-up window)
          * Permissions needed : Bluetooth, Fine_Location
-         * */
+         */
         Dexter.withActivity(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse response) {

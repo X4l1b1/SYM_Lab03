@@ -3,8 +3,14 @@
     package="ch.heigvd.iict.sym.a3dcompassapp">
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.nfc"
+                  android:required="true"/>
+    <uses-feature android:name="android.hardware.sensor.accelerometer" />
+    <uses-feature android:name="android.hardware.sensor.compass" />
+    <uses-feature android:name="android.hardware.sensor.gyroscope" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,13 +29,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BarCodeActivity" />
-        <activity android:name=".BeaconActivity" />
-        <activity android:name=".NFCActivity" />
+        <activity android:name=".BarCodeActivity"
+                  android:label="BarCodeActivity"/>
+        <activity android:name=".BeaconActivity"
+                  android:label="BeaconActivity"/>
+        <activity android:name=".NFCActivity"
+                  android:label="NFCActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".NFCLoginActivity"
+                  android:label="NFCLoginActivity">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".CompassActivity"
+            android:label="CompassActivity"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             />
     </application>
-
 </manifest>
