@@ -90,7 +90,7 @@ public class BeaconActivity extends AppCompatActivity implements BeaconConsumer 
     }
 
     /*
-     * Method called upon detection of a Beacon
+     * Method called when Beacon Service is online and ready to use
      * Uses BeaconManager's method addRangeNotifier to access all detected
      * Beacons and then proceed to extract informations from them
      * into a String
